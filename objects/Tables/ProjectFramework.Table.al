@@ -34,32 +34,48 @@ table 50220 "Project Framework"
                 Rec.TestField("Customer No.");
             end;
         }
-        field(5; "Internal Reference"; Text[30])
+        field(5; CustomerName; Text[100])
+        {
+            Caption = 'Customer Name';
+            FieldClass = FlowField;
+            Editable = false;
+            CalcFormula = lookup(Customer.Name where("No." = field("Customer No.")));
+        }
+        field(6; "Internal Reference"; Text[30])
         {
             Caption = 'Internal Reference';
             DataClassification = ToBeClassified;
         }
-        field(6; "Customer Reference"; Text[30])
+        field(7; "Customer Reference"; Text[30])
         {
             Caption = 'Customer Reference';
             DataClassification = ToBeClassified;
         }
-        field(7; State; Enum "Project Framework Status")
+        field(8; State; Enum "Project Framework Status")
         {
             Caption = 'State';
             DataClassification = ToBeClassified;
         }
-        field(8; "Start Date"; Date)
+        field(9; "Start Date"; Date)
         {
             Caption = 'Start Date';
             DataClassification = ToBeClassified;
         }
-        field(9; "End Date"; Date)
+        field(10; "End Date"; Date)
         {
             Caption = 'End Date';
             DataClassification = ToBeClassified;
+
+            trigger OnValidate()
+            var
+                CurrentDateTime: Date;
+            begin
+                CurrentDateTime := Rec."Start Date";
+                if Rec."End Date" < CurrentDateTime then
+                    Error('End Date must be greater than Start Date');
+            end;
         }
-        field(10; Description; Text[1024]) // need to double to check with Consultant, to verify that.
+        field(11; Description; Text[1024]) // need to double to check with Consultant, to verify that.
         {
             Caption = 'Description';
             DataClassification = ToBeClassified;

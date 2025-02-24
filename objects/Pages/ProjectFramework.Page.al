@@ -34,6 +34,11 @@ page 50220 "Project Frameworks"
                     ToolTip = 'Specifies the value of the Customer No. field.', Comment = '%';
                     ShowMandatory = true;
                 }
+                field(CustomerName; Rec.CustomerName)
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Customer Name field.', Comment = '%';
+                }
                 field("Internal Reference"; Rec."Internal Reference")
                 {
                     ApplicationArea = All;
