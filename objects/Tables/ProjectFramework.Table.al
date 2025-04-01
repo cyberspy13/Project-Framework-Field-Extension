@@ -60,6 +60,12 @@ table 50220 "Project Framework"
         {
             Caption = 'Start Date';
             DataClassification = ToBeClassified;
+
+            trigger OnValidate()
+            begin
+                if ("End Date" <> 0D) and ("End Date" < "Start Date") then
+                    Error('Start date must not be later than end date for Project Framework %1', Code);
+            end;
         }
         field(10; "End Date"; Date)
         {
@@ -67,12 +73,9 @@ table 50220 "Project Framework"
             DataClassification = ToBeClassified;
 
             trigger OnValidate()
-            var
-                CurrentDateTime: Date;
             begin
-                CurrentDateTime := Rec."Start Date";
-                if Rec."End Date" < CurrentDateTime then
-                    Error('End Date must be greater than Start Date');
+                if ("End Date" < "Start Date") then
+                    Error('End date must not be earlier than start date for Project Framework %1', Code);
             end;
         }
         field(11; Description; Text[1024]) // need to double to check with Consultant, to verify that.
@@ -92,5 +95,6 @@ table 50220 "Project Framework"
     trigger OnInsert()
     begin
         Rec.TestField("Customer No.");
+
     end;
 }
